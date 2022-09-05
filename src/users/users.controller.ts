@@ -13,25 +13,44 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Get()
   findAllUser(@Query('email') email: string) {
-    return this.userService.find(email);
+    return this.userService.findByEmail(email);
   }
 
-  @Post('signup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.userService.createUser(body.email, body.password);
+  @Get('/who')
+  whoAmI(@CurrentUser() data: any) {
+    return data;
   }
+  @Post('signup')
+  async createUser(@Body() body: CreateUserDto) {
+    const user = await this.authService.signup(body.email, body.password);
+    return user;
+  }
+
+  @Post('signin')
+  async signin(@Body() body: CreateUserDto) {
+    const user = await this.authService.signin(body.email, body.password);
+    return user;
+  }
+
+  @Post('signout')
+  signout() {}
 
   @Get(':id')
   findUser(@Param('id') id: string) {
-    return this.userService.findOne(parseInt(id));
+    return this.userService.findOneById(parseInt(id));
   }
 
   @Delete(':id')

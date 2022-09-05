@@ -13,7 +13,10 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
+    if (!id) {
+      throw new NotFoundException('user not found');
+    }
     const user = await this.repo.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('user not found');
@@ -21,8 +24,8 @@ export class UsersService {
     return user;
   }
 
-  find(param: string) {
-    return this.repo.findBy({ email: param });
+  findByEmail(param: string) {
+    return this.repo.findOneBy({ email: param });
   }
 
   async remove(id: number) {
