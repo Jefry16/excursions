@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { createHmac } from 'crypto';
 
 export function decode(token: string, key: string) {
@@ -6,7 +6,7 @@ export function decode(token: string, key: string) {
     /^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/,
   );
   if (matches === null) {
-    throw new UnauthorizedException('invalid token format');
+    throw new BadRequestException('invalid token format');
   }
   const { header, payload, signature } = matches['groups'];
   const hashedSignatured = createHmac('SHA256', key)
@@ -15,10 +15,10 @@ export function decode(token: string, key: string) {
     .toString('base64url');
 
   if (hashedSignatured !== signature) {
-    throw new UnauthorizedException('signature does not match');
+    throw new BadRequestException('signature does not match');
   }
   const decodedPayload = JSON.parse(
-    Buffer.from(payload, 'base64').toString('utf8'),
+    Buffer.from(payload, 'base64url').toString('utf8'),
   );
   return decodedPayload;
 }

@@ -6,9 +6,13 @@ import { ReportsModule } from './reports/reports.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
+import { SharedModule } from './shared/shared.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       database: 'car',
@@ -19,6 +23,8 @@ import { Report } from './reports/report.entity';
     }),
     UsersModule,
     ReportsModule,
+    SharedModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

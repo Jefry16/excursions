@@ -4,8 +4,8 @@ import { createHmac } from 'crypto';
 export function encode(payload: any, key: string) {
   const headerBase64Url = base64url(
     JSON.stringify({
-      typ: 'JWT',
       alg: 'HS256',
+      typ: 'JWT',
     }),
   );
   const payloadBase64Url = base64url(JSON.stringify(payload));

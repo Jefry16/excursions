@@ -7,14 +7,14 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Serialize } from '../interceptors/serialize.interceptor';
-import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 
 @Controller('auth')
 // @Serialize(UserDto)
@@ -44,7 +44,7 @@ export class UsersController {
     const user = await this.authService.signin(body.email, body.password);
     return user;
   }
-
+  @UseGuards(LoggedinGuard)
   @Post('signout')
   signout() {}
 

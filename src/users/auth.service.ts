@@ -6,7 +6,8 @@ import {
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { UsersService } from './users.service';
-import { encode } from '../jwt/jwt-econde';
+import { encode } from '../shared/jwt/jwt-econde';
+import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
 
 const scrypt = promisify(_scrypt);
 
@@ -36,7 +37,26 @@ export class AuthService {
     if (storedHash !== hash.toString('hex')) {
       throw new UnauthorizedException('bad credentials');
     }
-    const access_token = encode({ id: user.id }, '');
-    return { access_token };
+    const nowInSeconds = currentTimeInSeconds();
+    const access_token = encode(
+      {
+        sub: user.id,
+        exp: Math.floor(
+          Number(process.env.JWT_EXPIRY_TIME_ACCESS_TOKEN) + nowInSeconds,
+        ),
+      },
+      process.env.JWT_KEY,
+    );
+    const refresh_token = encode(
+      {
+        sub: user.id,
+        exp: Math.floor(
+          Number(process.env.JWT_EXPIRY_TIME_REFRESH_TOKEN) + nowInSeconds,
+        ),
+      },
+      process.env.JWT_KEY,
+    );
+
+    return { access_token, refresh_token };
   }
 }
