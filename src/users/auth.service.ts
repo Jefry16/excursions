@@ -6,6 +6,7 @@ import {
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { UsersService } from './users.service';
+import { encode } from '../jwt/jwt-econde';
 
 const scrypt = promisify(_scrypt);
 
@@ -35,6 +36,7 @@ export class AuthService {
     if (storedHash !== hash.toString('hex')) {
       throw new UnauthorizedException('bad credentials');
     }
-    return user;
+    const access_token = encode({ id: user.id }, '');
+    return { access_token };
   }
 }

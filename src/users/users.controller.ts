@@ -17,7 +17,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
-@Serialize(UserDto)
+// @Serialize(UserDto)
 export class UsersController {
   constructor(
     private userService: UsersService,
