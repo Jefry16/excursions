@@ -9,7 +9,7 @@ import { Report } from './reports/report.entity';
 import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { WhiteList } from './users/whitelist-token.entity';
+import { WhiteList } from './auth/whitelist-token.entity';
 
 @Module({
   imports: [

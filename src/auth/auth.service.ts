@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { createHmac, randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
-import { UsersService } from './users.service';
 import { encode } from '../shared/jwt/jwt-econde';
 import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
 import { decode } from '../shared/jwt/jwt-decode';
-import { User } from './user.entity';
+import { UsersService } from '../users/users.service';
 import { WhiteListService } from './white-list.service';
+import { User } from 'src/users/user.entity';
 
 const scrypt = promisify(_scrypt);
 
@@ -45,7 +45,7 @@ export class AuthService {
     }
 
     const tokens = this.createTokens(user, currentTimeInSeconds());
-    this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
+    await this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
     return tokens;
   }
 

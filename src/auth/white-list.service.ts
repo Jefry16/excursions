@@ -1,12 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WhiteList } from './whitelist-token.entity';
 import { createHmac } from 'crypto';
+import { WhiteList } from './whitelist-token.entity';
 
 @Injectable()
 export class WhiteListService {

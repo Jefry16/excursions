@@ -9,21 +9,15 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
-import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
-@Controller('auth')
+@Controller('users')
 // @Serialize(UserDto)
 export class UsersController {
-  constructor(
-    private userService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private userService: UsersService) {}
 
   @Get()
   findAllUser(@Query('email') email: string) {
@@ -34,31 +28,8 @@ export class UsersController {
   whoAmI(@CurrentUser() data: any) {
     return data;
   }
-  @Post('signup')
-  async createUser(@Body() body: CreateUserDto) {
-    const user = await this.authService.signup(body.email, body.password);
-    return user;
-  }
-
-  @Post('signin')
-  async signin(@Body() body: CreateUserDto) {
-    const user = await this.authService.signin(body.email, body.password);
-    return user;
-  }
-  @Post('refresh')
-  async refresh(@Body() body: RefreshTokenDto) {
-    return this.authService.refreshToken(body.token);
-  }
-
-  @Post('logout')
-  async logout(@Body() body: RefreshTokenDto) {
-    return this.authService.logout(body.token);
-  }
 
   @UseGuards(LoggedinGuard)
-  @Post('signout')
-  signout() {}
-
   @Get(':id')
   findUser(@Param('id') id: string) {
     return this.userService.findOneById(parseInt(id));
