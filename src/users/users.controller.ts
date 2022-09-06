@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 @Controller('auth')
 // @Serialize(UserDto)
@@ -44,6 +45,16 @@ export class UsersController {
     const user = await this.authService.signin(body.email, body.password);
     return user;
   }
+  @Post('refresh')
+  async refresh(@Body() body: RefreshTokenDto) {
+    return this.authService.refreshToken(body.token);
+  }
+
+  @Post('logout')
+  async logout(@Body() body: RefreshTokenDto) {
+    return this.authService.logout(body.token);
+  }
+
   @UseGuards(LoggedinGuard)
   @Post('signout')
   signout() {}

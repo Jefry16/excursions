@@ -9,6 +9,7 @@ import { Report } from './reports/report.entity';
 import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { WhiteList } from './users/whitelist-token.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       database: 'car',
-      entities: [User, Report],
+      entities: [User, Report, WhiteList],
       synchronize: true,
       username: 'root',
       password: '0.10.1mc',
