@@ -18,7 +18,7 @@ export class LoggedinGuard implements CanActivate {
       throw new BadRequestException('no bearer token was sent');
     }
     const token = bearerToken.split(' ')[1];
-    const decodedToken = decode(token, process.env.JWT_KEY);
+    const decodedToken = decode(token, process.env.JWT_KEY_ACCESS);
 
     if (decodedToken.exp < currentTimeInSeconds()) {
       throw new UnauthorizedException('access token has expired');

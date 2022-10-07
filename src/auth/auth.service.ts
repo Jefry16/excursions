@@ -44,29 +44,31 @@ export class AuthService {
       throw new UnauthorizedException('bad credentials');
     }
 
-    const tokens = this.createTokens(user, currentTimeInSeconds());
+    const tokens = this.createTokens(user);
     await this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
+    delete tokens.e
     return tokens;
   }
 
   async refreshToken(token: string) {
-    const decodedToken = decode(token, process.env.JWT_KEY);
+    const decodedToken = decode(token, process.env.JWT_KEY_REFRESH);
     if (decodedToken?.exp < currentTimeInSeconds()) {
       throw new UnauthorizedException('refresh token has expired');
     }
     const user = await this.usersService.findOneById(decodedToken.sub);
-    const hashedToken = createHmac('SHA256', process.env.JWT_KEY)
+    const hashedToken = createHmac('SHA256', process.env.JWT_KEY_REFRESH)
       .update(token)
       .digest()
       .toString('base64url');
     const removeTokenResult = await this.whiteListService.remove(hashedToken);
     console.log(removeTokenResult);
-    const tokens = this.createTokens(user, currentTimeInSeconds());
+    const tokens = this.createTokens(user);
     this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
     return tokens;
   }
 
-  createTokens(user: User, nowInSeconds: number) {
+  createTokens(user: User) {
+    const nowInSeconds = new Date().getTime() / 1000;
     const access_token = encode(
       {
         sub: user.id,
@@ -74,7 +76,7 @@ export class AuthService {
           Number(process.env.JWT_EXPIRY_TIME_ACCESS_TOKEN) + nowInSeconds,
         ),
       },
-      process.env.JWT_KEY,
+      process.env.JWT_KEY_ACCESS,
     );
     const refresh_token = encode(
       {
@@ -83,12 +85,11 @@ export class AuthService {
           Number(process.env.JWT_EXPIRY_TIME_REFRESH_TOKEN) + nowInSeconds,
         ),
       },
-      process.env.JWT_KEY,
+      process.env.JWT_KEY_REFRESH,
     );
     return {
       access_token,
       refresh_token,
-      //expiry
       e: Math.floor(
         Number(process.env.JWT_EXPIRY_TIME_REFRESH_TOKEN) + nowInSeconds,
       ),

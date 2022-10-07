@@ -10,14 +10,16 @@ import { SharedModule } from './shared/shared.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { WhiteList } from './auth/whitelist-token.entity';
+import { HotelsModule } from './hotels/hotels.module';
+import { Hotel } from './hotels/hotel.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      database: 'car',
-      entities: [User, Report, WhiteList],
+      database: 'di',
+      entities: [User, Report, WhiteList, Hotel],
       synchronize: true,
       username: 'root',
       password: '0.10.1mc',
@@ -26,6 +28,7 @@ import { WhiteList } from './auth/whitelist-token.entity';
     ReportsModule,
     SharedModule,
     AuthModule,
+    HotelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

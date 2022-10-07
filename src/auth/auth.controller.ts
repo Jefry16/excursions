@@ -2,21 +2,22 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { RefreshTokenDto } from '../users/dtos/refresh-token.dto';
 import { CreateUserDto } from '../users/dtos/create-user.dto';
 import { AuthService } from './auth.service';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UserDto } from '../users/dtos/user.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  async createUser(@Body() body: CreateUserDto) {
-    const user = await this.authService.signup(body.email, body.password);
-    return user;
+  @Serialize(UserDto)
+  createUser(@Body() body: CreateUserDto) {
+    return this.authService.signup(body.email, body.password);
   }
 
   @Post('signin')
-  async signin(@Body() body: CreateUserDto) {
-    const user = await this.authService.signin(body.email, body.password);
-    return user;
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signin(body.email, body.password);
   }
 
   @Post('refresh')

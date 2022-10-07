@@ -11,7 +11,7 @@ export class WhiteListService {
   ) {}
 
   saveTokenHash(token: string, expires_at: number) {
-    const token_hash = createHmac('SHA256', process.env.JWT_KEY)
+    const token_hash = createHmac('SHA256', process.env.JWT_KEY_REFRESH)
       .update(token)
       .digest()
       .toString('base64url');
