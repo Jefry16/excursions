@@ -52,7 +52,7 @@ export class AuthService {
 
   async refreshToken(token: string) {
     const decodedToken = decode(token, process.env.JWT_KEY_REFRESH);
-    if (decodedToken?.exp < currentTimeInSeconds()) {
+    if (decodedToken.exp < currentTimeInSeconds()) {
       throw new UnauthorizedException('refresh token has expired');
     }
     const user = await this.usersService.findOneById(decodedToken.sub);
@@ -64,6 +64,7 @@ export class AuthService {
     console.log(removeTokenResult);
     const tokens = this.createTokens(user);
     this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
+    delete tokens.e;
     return tokens;
   }
 
@@ -97,7 +98,7 @@ export class AuthService {
   }
 
   logout(token: string) {
-    const encodedToken = createHmac('SHA256', process.env.JWT_KEY)
+    const encodedToken = createHmac('SHA256', process.env.JWT_KEY_REFRESH)
       .update(token)
       .digest()
       .toString('base64url');

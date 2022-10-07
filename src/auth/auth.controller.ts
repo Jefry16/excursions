@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { RefreshTokenDto } from '../users/dtos/refresh-token.dto';
+import { TokenDto } from '../users/dtos/token.dto';
 import { CreateUserDto } from '../users/dtos/create-user.dto';
 import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -21,12 +21,12 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh(@Body() body: RefreshTokenDto) {
+  async refresh(@Body() body: TokenDto) {
     return this.authService.refreshToken(body.token);
   }
 
   @Post('logout')
-  async logout(@Body() body: RefreshTokenDto) {
+  async logout(@Body() body: TokenDto) {
     return this.authService.logout(body.token);
   }
 }

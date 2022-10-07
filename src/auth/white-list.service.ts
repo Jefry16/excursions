@@ -26,6 +26,7 @@ export class WhiteListService {
         'the provided token was not on the whitelist',
       );
     }
-    return this.repo.remove(token);
+    await this.repo.remove(token);
+    return null;
   }
 }
