@@ -22,7 +22,7 @@ export class AuthService {
   ) {}
   async signup(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
-    if (user) {
+    if (user.length) {
       throw new BadRequestException('email already taken');
     }
     const salt = randomBytes(8).toString('hex');
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async signin(userEmail: string, userPassword: string) {
-    const user = await this.usersService.findByEmail(userEmail);
+    const [user] = await this.usersService.findByEmail(userEmail);
     if (!user) {
       throw new UnauthorizedException('bad credentials');
     }

@@ -25,7 +25,7 @@ export class UsersService {
   }
 
   findByEmail(param: string) {
-    return this.repo.findOneBy({ email: param });
+    return this.repo.findBy({ email: param });
   }
 
   async remove(id: number) {
