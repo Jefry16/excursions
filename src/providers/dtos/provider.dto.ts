@@ -16,6 +16,4 @@ export class ProviderDto {
   @Expose()
   email: string;
 
-  @Expose()
-  userId: number;
 }

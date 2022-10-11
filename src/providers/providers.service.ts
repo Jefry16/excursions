@@ -9,9 +9,8 @@ import { User } from '../users/user.entity';
 export class ProvidersService {
   constructor(@InjectRepository(Provider) private repo: Repository<Provider>) {}
 
-  create(providerDto: CreateProviderDto, user: User) {
+  create(providerDto: CreateProviderDto) {
     const provider = this.repo.create(providerDto);
-    provider.user = user;
     return this.repo.save(provider);
   }
 

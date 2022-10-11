@@ -5,6 +5,7 @@ import {
   AfterUpdate,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -19,9 +20,6 @@ export class User {
 
   @Column()
   password: string;
-
-  @OneToMany(() => Provider, (report) => report.user, { nullable: false })
-  providers: Provider[];
 
   @AfterInsert()
   afterInsert() {

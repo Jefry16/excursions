@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -24,10 +25,4 @@ export class Provider {
 
   @Column()
   email: string;
-
-  @ManyToOne(() => User, (user) => user.providers)
-  user: User;
-
-  // @OneToMany(() => Tour, (tour) => tour.provider)
-  // tours: Tour[];
 }
