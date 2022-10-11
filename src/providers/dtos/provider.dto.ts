@@ -1,4 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
+import { User } from '../../users/user.entity';
 
 export class ProviderDto {
   @Expose()
@@ -16,4 +17,7 @@ export class ProviderDto {
   @Expose()
   email: string;
 
+  @Transform(({ obj }) => obj.user.id || null)
+  @Expose()
+  userId: User;
 }

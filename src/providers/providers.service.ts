@@ -19,7 +19,10 @@ export class ProvidersService {
     if (!id) {
       throw new NotFoundException('provider not found');
     }
-    const providers = await this.repo.findBy({ id });
+    const providers = await this.repo.find({
+      where: { id },
+      relations: ['user'],
+    });
     if (!providers.length) {
       throw new NotFoundException('provider not found');
     }
