@@ -11,7 +11,7 @@ import { CurrentUserInterceptor } from './interceptors/current-user.interceptor'
   imports: [TypeOrmModule.forFeature([User, WhiteList])],
   providers: [
     UsersService,
-    // { useClass: CurrentUserInterceptor, provide: APP_INTERCEPTOR },
+    { useClass: CurrentUserInterceptor, provide: APP_INTERCEPTOR },
   ],
   exports: [UsersService],
   controllers: [UsersController],
