@@ -1,4 +1,5 @@
 import { Provider } from '../providers/provider.entity';
+import { Tour } from '../tours/tour.entity';
 import {
   AfterInsert,
   AfterRemove,
@@ -23,6 +24,9 @@ export class User {
 
   @OneToMany(() => Provider, (providers) => providers.user)
   providers: Provider[];
+
+  @OneToMany(() => Tour, (tour) => tour.user)
+  tours: Tour[];
 
   @AfterInsert()
   afterInsert() {
