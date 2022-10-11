@@ -12,6 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import { WhiteList } from './auth/whitelist-token.entity';
 import { HotelsModule } from './hotels/hotels.module';
 import { Hotel } from './hotels/hotel.entity';
+import { ProvidersModule } from './providers/providers.module';
+import { Provider } from './providers/provider.entity';
 
 @Module({
   imports: [
@@ -24,25 +26,18 @@ import { Hotel } from './hotels/hotel.entity';
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
         synchronize: true,
-        entities: [User, Report, WhiteList, Hotel],
+        entities: [User, Report, WhiteList, Hotel, Provider],
         database: config.get<string>('DB_NAME'),
         username: 'root',
         password: '0.10.1mc',
       }),
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   database: 'di',
-    //   entities: [User, Report, WhiteList, Hotel],
-    //   synchronize: true,
-    //   username: 'root',
-    //   password: '0.10.1mc',
-    // }),
     UsersModule,
     ReportsModule,
     SharedModule,
     AuthModule,
     HotelsModule,
+    ProvidersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
