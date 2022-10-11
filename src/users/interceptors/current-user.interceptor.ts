@@ -4,17 +4,15 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { decode } from '../shared/jwt/jwt-decode';
-import { UsersService } from '../users/users.service';
+import { decode } from '../../shared/jwt/jwt-decode';
+import { UsersService } from '../users.service';
 
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
   constructor(private userService: UsersService) {}
   async intercept(context: ExecutionContext, next: CallHandler) {
-    console.log(4);
-
     const request = context.switchToHttp().getRequest();
+
     const bearerToken = request?.headers?.authorization;
     if (bearerToken) {
       const token = bearerToken.split(' ')[1];
