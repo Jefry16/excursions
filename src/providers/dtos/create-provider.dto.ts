@@ -5,13 +5,13 @@ export class CreateProviderDto {
   @Length(2, 150)
   name: string;
 
-  @IsString()
-  phone: string;
+  // @IsString()
+  // phone: string;
 
-  @IsString()
-  @Length(2, 150)
-  person_in_charge: string;
+  // @IsString()
+  // @Length(2, 150)
+  // person_in_charge: string;
 
-  @IsEmail()
-  email: string;
+  // @IsEmail()
+  // email: string;
 }

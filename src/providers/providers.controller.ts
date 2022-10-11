@@ -17,8 +17,7 @@ export class ProvidersController {
     @Body() providerDto: CreateProviderDto,
     @CurrentUser() currentUser: User,
   ) {
-    console.log(currentUser);
-    return this.providerService.create(providerDto);
+    return this.providerService.create(providerDto, currentUser);
   }
 
   @Get(':id')

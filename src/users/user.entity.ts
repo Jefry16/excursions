@@ -21,6 +21,9 @@ export class User {
   @Column()
   password: string;
 
+  @OneToMany(() => Provider, (providers) => providers.user)
+  providers: Provider[];
+
   @AfterInsert()
   afterInsert() {
     console.log('inserted');
