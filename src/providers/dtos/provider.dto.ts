@@ -2,6 +2,9 @@ import { Expose, Transform } from 'class-transformer';
 
 export class ProviderDto {
   @Expose()
+  id: number;
+
+  @Expose()
   name: string;
 
   @Expose()
@@ -14,6 +17,5 @@ export class ProviderDto {
   email: string;
 
   @Expose()
-  @Transform(({ obj }) => obj.user.id)
   userId: number;
 }

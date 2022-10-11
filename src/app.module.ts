@@ -14,6 +14,8 @@ import { HotelsModule } from './hotels/hotels.module';
 import { Hotel } from './hotels/hotel.entity';
 import { ProvidersModule } from './providers/providers.module';
 import { Provider } from './providers/provider.entity';
+import { ToursModule } from './tours/tours.module';
+import { Tour } from './tours/tour.entity';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { Provider } from './providers/provider.entity';
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
         synchronize: true,
-        entities: [User, Report, WhiteList, Hotel, Provider],
+        entities: [User, Report, WhiteList, Hotel, Provider, Tour],
         database: config.get<string>('DB_NAME'),
         username: 'root',
         password: '0.10.1mc',
@@ -38,6 +40,7 @@ import { Provider } from './providers/provider.entity';
     AuthModule,
     HotelsModule,
     ProvidersModule,
+    ToursModule,
   ],
   controllers: [AppController],
   providers: [AppService],

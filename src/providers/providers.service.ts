@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Provider } from './provider.entity';
@@ -13,5 +13,17 @@ export class ProvidersService {
     const provider = this.repo.create(providerDto);
     provider.user = user;
     return this.repo.save(provider);
+  }
+
+  async findOne(id: number) {
+    if (!id) {
+      throw new NotFoundException('provider not found');
+    }
+    const providers = await this.repo.findBy({ id });
+    if (!providers.length) {
+      throw new NotFoundException('provider not found');
+    }
+
+    return providers[0];
   }
 }
