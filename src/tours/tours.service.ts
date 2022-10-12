@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tour } from './tour.entity';
@@ -9,12 +9,27 @@ import { User } from '../users/user.entity';
 @Injectable()
 export class ToursService {
   constructor(
-    @InjectRepository(Tour) private repo: Repository<Tour>, // private providersSerice: ProvidersService,
+    @InjectRepository(Tour) private repo: Repository<Tour>,
+    private providersSerice: ProvidersService,
   ) {}
 
-  create(tourDto: CreateTourDto, user: User) {
+  async create(tourDto: CreateTourDto, user: User) {
+    const provider = await this.providersSerice.findOne(tourDto.providerId);
     const tour = this.repo.create(tourDto);
     tour.user = user;
+    tour.provider = provider;
     return this.repo.save(tour);
+  }
+
+  async findOneById(id: number) {
+    if (!id) {
+      throw new NotFoundException('tour not found');
+    }
+    const tours = await this.repo.findBy({ id });
+    if (!tours.length) {
+      throw new NotFoundException('tour not found');
+    }
+    console.log(tours[0]);
+    return tours[0];
   }
 }

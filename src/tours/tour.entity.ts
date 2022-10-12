@@ -22,9 +22,13 @@ export class Tour {
   // @Column()
   // priceKid: number;
 
-  // @ManyToOne(() => Provider, (provider) => provider)
-  // provider: Provider;
   @ManyToOne(() => User, (user) => user.tours, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
+
+  @ManyToOne(() => Provider, (provider) => provider.tours, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
+  provider: Provider;
 }

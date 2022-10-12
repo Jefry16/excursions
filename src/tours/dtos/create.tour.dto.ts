@@ -4,6 +4,9 @@ export class CreateTourDto {
   @IsString()
   name: string;
 
+  @IsNumber()
+  providerId: number;
+
   // @IsNumber()
   // priceAdult: number;
 

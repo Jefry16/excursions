@@ -29,4 +29,7 @@ export class Provider {
   @ManyToOne(() => User, (user) => user.providers, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Tour, (tour) => tour.provider)
+  tours: Tour[];
 }
