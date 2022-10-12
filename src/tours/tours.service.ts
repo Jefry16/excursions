@@ -25,7 +25,10 @@ export class ToursService {
     if (!id) {
       throw new NotFoundException('tour not found');
     }
-    const tours = await this.repo.findBy({ id });
+    const tours = await this.repo.find({
+      where: { id },
+      relations: ['provider'],
+    });
     if (!tours.length) {
       throw new NotFoundException('tour not found');
     }

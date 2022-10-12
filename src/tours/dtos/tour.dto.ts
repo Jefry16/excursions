@@ -5,10 +5,10 @@ export class TourDto {
   @Expose()
   id: number;
 
-  // @Expose()
-  // name: string;
+  @Expose()
+  name: string;
 
-  //   @Transform(({ obj }) => obj.user.id || null)
-  //   @Expose()
-  //   userId: User;
+  @Transform(({ obj }) => obj)
+  @Expose()
+  provider: User;
 }

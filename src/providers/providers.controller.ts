@@ -10,6 +10,7 @@ import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 @Controller('providers')
 @UseGuards(LoggedinGuard)
 @Serialize(ProviderDto)
+
 export class ProvidersController {
   constructor(private providerService: ProvidersService) {}
   @Post('')
