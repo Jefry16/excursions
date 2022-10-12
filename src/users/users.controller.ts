@@ -13,9 +13,11 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
 
 @Controller('users')
-// @Serialize(UserDto)
+@Serialize(UserDto)
 export class UsersController {
   constructor(private userService: UsersService) {}
 
