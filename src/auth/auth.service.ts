@@ -67,11 +67,9 @@ export class AuthService {
       .update(token)
       .digest()
       .toString('base64url');
-    const removeTokenResult = await this.whiteListService.remove(hashedToken);
-    console.log(removeTokenResult);
+    await this.whiteListService.remove(hashedToken);
     const tokens = this.createTokens(user);
     this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
-    delete tokens.e;
     return tokens;
   }
 

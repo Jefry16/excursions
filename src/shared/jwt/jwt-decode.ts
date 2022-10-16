@@ -1,11 +1,11 @@
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { createHmac } from 'crypto';
 
 export function decode(token: string, key: string) {
-  const matches = token.match(
+  const matches = token?.match(
     /^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/,
   );
-  if (matches === null) {
+  if (!matches) {
     throw new BadRequestException('invalid token format');
   }
   const { header, payload, signature } = matches['groups'];

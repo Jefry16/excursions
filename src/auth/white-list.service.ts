@@ -10,7 +10,7 @@ export class WhiteListService {
   constructor(
     private configService: ConfigService,
     @InjectRepository(WhiteList) private repo: Repository<WhiteList>,
-  ) {}
+  ) { }
 
   saveTokenHash(token: string, expires_at: number) {
     const token_hash = createHmac(
@@ -26,12 +26,13 @@ export class WhiteListService {
 
   async remove(token_hash: string) {
     const token = await this.repo.findOneBy({ token_hash });
+    const tokenCopy = { ...token }
     if (!token) {
       throw new BadRequestException(
         'the provided token was not on the whitelist',
       );
     }
     await this.repo.remove(token);
-    return null;
+    return tokenCopy;
   }
 }

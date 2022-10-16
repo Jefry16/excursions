@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { Tour } from './tour.entity';
 import { CreateTourDto } from './dtos/create.tour.dto';
 import { ProvidersService } from '../providers/providers.service';
@@ -11,7 +11,7 @@ export class ToursService {
   constructor(
     @InjectRepository(Tour) private repo: Repository<Tour>,
     private providersSerice: ProvidersService,
-  ) {}
+  ) { }
 
   async create(tourDto: CreateTourDto, user: User) {
     const provider = await this.providersSerice.findOne(tourDto.providerId);
@@ -34,5 +34,9 @@ export class ToursService {
     }
     console.log(tours[0]);
     return tours[0];
+  }
+
+  findByName(name: string) {
+    return this.repo.find({ where: { name: Like(`%${name}%`) }, })
   }
 }

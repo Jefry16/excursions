@@ -2,11 +2,11 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { decode } from '../jwt/jwt-decode';
 import { currentTimeInSeconds } from '../helpers/time-in-seconds.helper';
-import { UnauthorizedException } from '@nestjs/common';
 
 export class LoggedinGuard implements CanActivate {
   canActivate(
@@ -21,7 +21,7 @@ export class LoggedinGuard implements CanActivate {
     const decodedToken = decode(token, process.env.JWT_KEY_ACCESS);
 
     if (decodedToken.exp < currentTimeInSeconds()) {
-      throw new UnauthorizedException('access token has expired');
+      throw new ForbiddenException('access token has expired');
     }
     return true;
   }
