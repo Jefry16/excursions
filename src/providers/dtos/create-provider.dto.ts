@@ -1,17 +1,22 @@
-import { IsEmail, IsString, Length, Validate } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length, } from 'class-validator';
 
 export class CreateProviderDto {
   @IsString()
-  @Length(2, 150)
+  @Length(2, 200)
   name: string;
 
-  // @IsString()
-  // phone: string;
+  @IsString()
+  @IsNotEmpty()
+  phone: string;
 
-  // @IsString()
-  // @Length(2, 150)
-  // person_in_charge: string;
+  @IsString()
+  @Length(2, 200)
+  person_in_charge: string;
 
-  // @IsEmail()
-  // email: string;
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @Length(2, 200)
+  bussiness_name: string | null
 }

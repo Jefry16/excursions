@@ -17,14 +17,17 @@ export class Provider {
   @Column()
   name: string;
 
-  // @Column()
-  // phone: string;
+  @Column()
+  phone: string;
 
-  // @Column()
-  // person_in_charge: string;
+  @Column()
+  person_in_charge: string;
 
-  // @Column()
-  // email: string;
+  @Column()
+  email: string;
+
+  @Column({ nullable: true })
+  bussiness_name: string
 
   @ManyToOne(() => User, (user) => user.providers, { onDelete: 'SET NULL' })
   @JoinColumn()

@@ -21,7 +21,7 @@ export class AuthService {
     private usersService: UsersService,
     private whiteListService: WhiteListService,
     private configService: ConfigService,
-  ) {}
+  ) { }
   async signup(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (user.length) {
@@ -69,7 +69,7 @@ export class AuthService {
       .toString('base64url');
     await this.whiteListService.remove(hashedToken);
     const tokens = this.createTokens(user);
-    this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
+    await this.whiteListService.saveTokenHash(tokens.refresh_token, tokens.e);
     return tokens;
   }
 
