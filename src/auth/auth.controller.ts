@@ -1,14 +1,18 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { BadRequestException, Body, Controller, ForbiddenException, Get, Headers, Post, Req, Res } from '@nestjs/common';
 import { TokenDto } from '../users/dtos/token.dto';
 import { CreateUserDto } from '../users/dtos/create-user.dto';
 import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from '../users/dtos/user.dto';
 import { Request, Response } from 'express';
+import { IncomingHttpHeaders } from 'http';
+import { decode } from '../shared/jwt/jwt-decode';
+import { ConfigService } from '@nestjs/config';
+import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private configService: ConfigService) { }
 
   @Post('signup')
   @Serialize(UserDto)
@@ -23,6 +27,20 @@ export class AuthController {
     response.send({ token: authResponse.access_token })
 
   }
+
+  @Post('authenticated')
+  authenticated(@Headers() header: IncomingHttpHeaders) {
+    if (!header.authorization) {
+      throw new BadRequestException('no bearer token was sent');
+    }
+    const token = header.authorization.split(' ')[1]
+    const decodedToken = decode(token, this.configService.get<string>('JWT_KEY_ACCESS'))
+
+    if (decodedToken?.exp < currentTimeInSeconds()) {
+      throw new ForbiddenException('access token has expired');
+    }
+  }
+
 
   @Post('refresh')
   async refresh(@Req() request: Request, @Res() response: Response) {

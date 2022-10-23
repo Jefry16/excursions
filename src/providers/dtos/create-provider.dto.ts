@@ -15,8 +15,4 @@ export class CreateProviderDto {
 
   @IsEmail()
   email: string;
-
-  @IsString()
-  @Length(2, 200)
-  bussiness_name: string | null
 }

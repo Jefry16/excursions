@@ -26,8 +26,6 @@ export class Provider {
   @Column()
   email: string;
 
-  @Column({ nullable: true })
-  bussiness_name: string
 
   @ManyToOne(() => User, (user) => user.providers, { onDelete: 'SET NULL' })
   @JoinColumn()
