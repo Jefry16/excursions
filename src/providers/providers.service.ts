@@ -7,7 +7,7 @@ import { User } from '../users/user.entity';
 
 @Injectable()
 export class ProvidersService {
-  constructor(@InjectRepository(Provider) private repo: Repository<Provider>) {}
+  constructor(@InjectRepository(Provider) private repo: Repository<Provider>) { }
 
   create(providerDto: CreateProviderDto, user: User) {
     const provider = this.repo.create(providerDto);
@@ -28,5 +28,9 @@ export class ProvidersService {
     }
 
     return providers[0];
+  }
+
+  async findMany() {
+    return this.repo.find({relations: ['user']})
   }
 }

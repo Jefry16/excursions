@@ -26,6 +26,12 @@ export class Provider {
   @Column()
   email: string;
 
+  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  created: Date;
+
+  @Column({ nullable: false, default: false })
+  accept_payment: boolean
+
 
   @ManyToOne(() => User, (user) => user.providers, { onDelete: 'SET NULL' })
   @JoinColumn()

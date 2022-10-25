@@ -17,6 +17,9 @@ export class ProviderDto {
   @Expose()
   email: string;
 
+  @Expose()
+  accept_payment: boolean
+
   @Transform(({ obj }) => obj.user.id || null)
   @Expose()
   userId: User;

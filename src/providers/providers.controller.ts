@@ -25,4 +25,9 @@ export class ProvidersController {
   getOne(@Param('id') id: string) {
     return this.providerService.findOne(Number(id));
   }
+
+  @Get()
+  getMany() {
+    return this.providerService.findMany();
+  }
 }
