@@ -1,23 +1,23 @@
-import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { Client } from './clients/client.entity';
+import { ClientsModule } from './clients/clients.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Hotel } from './hotels/hotel.entity';
+import { HotelsModule } from './hotels/hotels.module';
+import { Module } from '@nestjs/common';
+import { Provider } from './providers/provider.entity';
+import { ProvidersModule } from './providers/providers.module';
+import { Report } from './reports/report.entity';
 import { ReportsModule } from './reports/reports.module';
+import { SharedModule } from './shared/shared.module';
+import { Tour } from './tours/tour.entity';
+import { ToursModule } from './tours/tours.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
-import { Report } from './reports/report.entity';
-import { SharedModule } from './shared/shared.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 import { WhiteList } from './auth/whitelist-token.entity';
-import { HotelsModule } from './hotels/hotels.module';
-import { Hotel } from './hotels/hotel.entity';
-import { ProvidersModule } from './providers/providers.module';
-import { Provider } from './providers/provider.entity';
-import { ToursModule } from './tours/tours.module';
-import { Tour } from './tours/tour.entity';
-import { ClientsModule } from './clients/clients.module';
-import { Client } from './clients/client.entity';
 
 @Module({
   imports: [

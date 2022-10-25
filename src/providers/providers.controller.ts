@@ -6,11 +6,13 @@ import { User } from '../users/user.entity';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ProviderDto } from './dtos/provider.dto';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
+import { ApiTags } from '@nestjs/swagger';
+
 
 @Controller('providers')
 @UseGuards(LoggedinGuard)
 @Serialize(ProviderDto)
-
+@ApiTags('providers')
 export class ProvidersController {
   constructor(private providerService: ProvidersService) { }
   @Post('')

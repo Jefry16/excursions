@@ -9,8 +9,11 @@ import { IncomingHttpHeaders } from 'http';
 import { decode } from '../shared/jwt/jwt-decode';
 import { ConfigService } from '@nestjs/config';
 import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
+import { ApiTags } from '@nestjs/swagger';
+
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService, private configService: ConfigService) { }
 

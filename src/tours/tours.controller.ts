@@ -6,10 +6,12 @@ import { User } from '../users/user.entity';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { TourDto } from './dtos/tour.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('tours')
 @UseGuards(LoggedinGuard)
 @Serialize(TourDto)
+@ApiTags('tours')
 export class ToursController {
   constructor(private toursService: ToursService) { }
   @Post()
