@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
@@ -6,13 +6,16 @@ import { User } from '../users/user.entity';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ProviderDto } from './dtos/provider.dto';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Provider } from './provider.entity';
+import { PageOptionsDto } from '../shared/pagination/page-option.dto';
 
 
 @Controller('providers')
-@UseGuards(LoggedinGuard)
-@Serialize(ProviderDto)
+// @UseGuards(LoggedinGuard)
+// @Serialize(ProviderDto)
 @ApiTags('providers')
+@ApiResponse({ status: 201, type: Provider, description: 'created' })
 export class ProvidersController {
   constructor(private providerService: ProvidersService) { }
   @Post('')
@@ -23,13 +26,14 @@ export class ProvidersController {
     return this.providerService.create(providerDto, currentUser);
   }
 
-  @Get(':id')
-  getOne(@Param('id') id: string) {
-    return this.providerService.findOne(Number(id));
-  }
+  // @Get(':id')
+  // getOne(@Param('id') id: string) {
+  //   return this.providerService.findOne(Number(id));
+  // }
 
   @Get()
-  getMany() {
-    return this.providerService.findMany();
+  getMany(@Query() pageOptionsDto: PageOptionsDto) {
+    // return pageOptionsDto
+    return this.providerService.findMany(pageOptionsDto);
   }
 }
