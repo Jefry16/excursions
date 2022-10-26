@@ -8,7 +8,7 @@ import { ProviderDto } from './dtos/provider.dto';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Provider } from './provider.entity';
-import { PageOptionsDto } from '../shared/pagination/page-option.dto';
+import PaginationDto from '../shared/dtos/pagination.dto';
 
 
 @Controller('providers')
@@ -26,14 +26,13 @@ export class ProvidersController {
     return this.providerService.create(providerDto, currentUser);
   }
 
-  // @Get(':id')
-  // getOne(@Param('id') id: string) {
-  //   return this.providerService.findOne(Number(id));
-  // }
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.providerService.findOne(Number(id));
+  }
 
   @Get()
-  getMany(@Query() pageOptionsDto: PageOptionsDto) {
-    // return pageOptionsDto
+  getMany(@Query() pageOptionsDto: PaginationDto) {
     return this.providerService.findMany(pageOptionsDto);
   }
 }

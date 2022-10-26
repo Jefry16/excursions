@@ -4,13 +4,11 @@ import { Repository } from 'typeorm';
 import { Provider } from './provider.entity';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { User } from '../users/user.entity';
-import { PageOptionsDto } from '../shared/pagination/page-option.dto';
-import { PageMetaDto } from '../shared/pagination/page-meta.dto';
-import { PageDto } from '../shared/pagination/page.dto';
+import PaginationDto from '../shared/dtos/pagination.dto';
 
 @Injectable()
 export class ProvidersService {
-  constructor(@InjectRepository(Provider) private repo: Repository<Provider>) {}
+  constructor(@InjectRepository(Provider) private repo: Repository<Provider>) { }
 
   create(providerDto: CreateProviderDto, user: User) {
     const provider = this.repo.create(providerDto);
@@ -33,18 +31,21 @@ export class ProvidersService {
     return providers[0];
   }
 
-  async findMany(pageOptionsDto: PageOptionsDto) {
-    // return this.repo.find({relations: ['user']})
-    const queryBuilder = this.repo.createQueryBuilder('provider');
-
-    queryBuilder
-      .orderBy('provider.created', pageOptionsDto.order)
-      .skip(pageOptionsDto.skip)
-      .take(pageOptionsDto.take);
-
-      const itemCount = await queryBuilder.getCount();
-      const { entities } = await queryBuilder.getRawAndEntities();
-      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-      return new PageDto(entities, pageMetaDto);
+  async findMany(paginationDto: PaginationDto) {
+    const query = this.repo.createQueryBuilder('providers');
+    query
+      .orderBy('providers.id', paginationDto.order)
+      .limit(paginationDto.limit)
+      .offset(paginationDto.limit * (paginationDto.page - 1));
+    const itemsCount = await query.getCount();
+    const { entities } = await query.getRawAndEntities();
+    return {
+      data: entities,
+      meta: {
+        itemsCount,
+        currentPage: paginationDto.page,
+        pages: Math.ceil(itemsCount / paginationDto.limit),
+      },
+    };
   }
 }
