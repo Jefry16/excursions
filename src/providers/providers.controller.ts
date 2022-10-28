@@ -9,16 +9,18 @@ import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Provider } from './provider.entity';
 import PaginationDto from '../shared/dtos/pagination.dto';
+import { PaginatedProviderDto } from './dtos/paginated-provider.dto';
 
 
 @Controller('providers')
-// @UseGuards(LoggedinGuard)
-// @Serialize(ProviderDto)
+@UseGuards(LoggedinGuard)
 @ApiTags('providers')
 @ApiResponse({ status: 201, type: Provider, description: 'created' })
 export class ProvidersController {
   constructor(private providerService: ProvidersService) { }
+
   @Post('')
+  @Serialize(ProviderDto)
   createProvider(
     @Body() providerDto: CreateProviderDto,
     @CurrentUser() currentUser: User,
@@ -27,11 +29,13 @@ export class ProvidersController {
   }
 
   @Get(':id')
+  @Serialize(ProviderDto)
   getOne(@Param('id') id: string) {
     return this.providerService.findOne(Number(id));
   }
 
-  @Get()
+  @Get('')
+  @Serialize(PaginatedProviderDto)
   getMany(@Query() pageOptionsDto: PaginationDto) {
     return this.providerService.findMany(pageOptionsDto);
   }

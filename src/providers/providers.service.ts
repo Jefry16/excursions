@@ -32,13 +32,15 @@ export class ProvidersService {
   }
 
   async findMany(paginationDto: PaginationDto) {
+
     const query = this.repo.createQueryBuilder('providers');
-    query
+    query.leftJoinAndSelect('providers.user','user')
       .orderBy('providers.id', paginationDto.order)
       .limit(paginationDto.limit)
       .offset(paginationDto.limit * (paginationDto.page - 1));
     const itemsCount = await query.getCount();
     const { entities } = await query.getRawAndEntities();
+
     return {
       data: entities,
       meta: {
