@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   UnauthorizedException,
+  ForbiddenException
 } from '@nestjs/common';
 import { createHmac, randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
@@ -57,7 +58,7 @@ export class AuthService {
       this.configService.get<string>('JWT_KEY_REFRESH'),
     );
     if (decodedToken.exp < currentTimeInSeconds()) {
-      throw new UnauthorizedException('refresh token has expired');
+      throw new ForbiddenException('refresh token has expired');
     }
     const user = await this.usersService.findOneById(decodedToken.sub);
     const hashedToken = createHmac(

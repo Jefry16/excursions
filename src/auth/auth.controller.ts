@@ -42,6 +42,7 @@ export class AuthController {
     if (decodedToken?.exp < currentTimeInSeconds()) {
       throw new ForbiddenException('access token has expired');
     }
+    return {auth:'945454535453435455'}
   }
 
 
