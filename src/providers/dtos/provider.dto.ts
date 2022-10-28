@@ -20,7 +20,9 @@ export class ProviderDto {
   @Expose()
   accept_payment: boolean
 
-  @Transform(({ obj }) => obj.user.id || null)
+  @Transform(({ obj }) => {
+    return obj.user.id || null
+  })
   @Expose()
   userId: User;
 }
