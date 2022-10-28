@@ -7,10 +7,11 @@ import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { TourDto } from './dtos/tour.dto';
 import { ApiTags } from '@nestjs/swagger';
+import PaginationDto from '../shared/dtos/pagination.dto';
 
 @Controller('tours')
 @UseGuards(LoggedinGuard)
-@Serialize(TourDto)
+// @Serialize(TourDto)
 @ApiTags('tours')
 export class ToursController {
   constructor(private toursService: ToursService) { }
@@ -25,8 +26,8 @@ export class ToursController {
   }
 
   @Get('')
-  seachFor(@Query() query: any) {
-    return this.toursService.findByName(query.search)
+  seachFor(@Query() paginationDto: PaginationDto) {
+    return this.toursService.findMany(paginationDto)
   }
 
 }

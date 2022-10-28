@@ -5,6 +5,7 @@ import { Tour } from './tour.entity';
 import { CreateTourDto } from './dtos/create.tour.dto';
 import { ProvidersService } from '../providers/providers.service';
 import { User } from '../users/user.entity';
+import PaginationDto from '../shared/dtos/pagination.dto';
 
 @Injectable()
 export class ToursService {
@@ -38,5 +39,24 @@ export class ToursService {
 
   findByName(name: string) {
     return this.repo.find({ where: { name: Like(`%${name}%`) }, })
+  }
+
+  async findMany(paginationDto: PaginationDto) {
+    const query = this.repo.createQueryBuilder('tour')
+    .leftJoinAndSelect('tour.user','user')
+      .orderBy('tour.id', paginationDto.order)
+      .limit(paginationDto.limit)
+      .offset(paginationDto.limit * (paginationDto.page - 1));
+    const itemsCount = await query.getCount();
+    const { entities } = await query.getRawAndEntities();
+
+    return {
+      data: entities,
+      meta: {
+        itemsCount,
+        currentPage: paginationDto.page,
+        pages: Math.ceil(itemsCount / paginationDto.limit),
+      },
+    };
   }
 }
