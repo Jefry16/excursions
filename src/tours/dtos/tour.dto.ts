@@ -8,7 +8,7 @@ export class TourDto {
   @Expose()
   name: string;
 
-  @Transform(({ obj }) => obj)
   @Expose()
-  provider: User;
+  @Transform(({obj})=>obj.provider.id)
+  provider: number;
 }

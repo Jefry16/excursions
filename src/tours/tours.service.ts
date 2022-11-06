@@ -43,7 +43,7 @@ export class ToursService {
 
   async findMany(paginationDto: PaginationDto) {
     const query = this.repo.createQueryBuilder('tour')
-    .leftJoinAndSelect('tour.user','user')
+      .leftJoinAndSelect('tour.user', 'user').leftJoinAndSelect('tour.provider', 'provider')
       .orderBy('tour.id', paginationDto.order)
       .limit(paginationDto.limit)
       .offset(paginationDto.limit * (paginationDto.page - 1));

@@ -8,24 +8,28 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 import { TourDto } from './dtos/tour.dto';
 import { ApiTags } from '@nestjs/swagger';
 import PaginationDto from '../shared/dtos/pagination.dto';
+import { PaginatedTourDto } from './dtos/paginated-tour.dto';
 
 @Controller('tours')
-@UseGuards(LoggedinGuard)
-// @Serialize(TourDto)
+// @UseGuards(LoggedinGuard)
 @ApiTags('tours')
 export class ToursController {
   constructor(private toursService: ToursService) { }
+
   @Post()
+  @Serialize(TourDto)
   create(@Body() tourDto: CreateTourDto, @CurrentUser() user: User) {
     return this.toursService.create(tourDto, user);
   }
 
   @Get(':id')
+  @Serialize(TourDto)
   getOneById(@Param('id') id: string) {
     return this.toursService.findOneById(Number(id));
   }
 
   @Get('')
+  @Serialize(PaginatedTourDto)
   seachFor(@Query() paginationDto: PaginationDto) {
     return this.toursService.findMany(paginationDto)
   }

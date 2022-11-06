@@ -7,7 +7,6 @@ import { UserDto } from '../users/dtos/user.dto';
 import { Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { decode } from '../shared/jwt/jwt-decode';
-import { ConfigService } from '@nestjs/config';
 import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -15,7 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private configService: ConfigService) { }
+  constructor(private authService: AuthService) { }
 
   @Post('signup')
   @Serialize(UserDto)
@@ -37,12 +36,12 @@ export class AuthController {
       throw new BadRequestException('no bearer token was sent');
     }
     const token = header.authorization.split(' ')[1]
-    const decodedToken = decode(token, this.configService.get<string>('JWT_KEY_ACCESS'))
+    const decodedToken = decode(token, process.env.JWT_KEY_ACCESS)
 
     if (decodedToken?.exp < currentTimeInSeconds()) {
       throw new ForbiddenException('access token has expired');
     }
-    return {auth:'945454535453435455'}
+    return { auth: '945454535453435455' }
   }
 
 

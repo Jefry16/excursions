@@ -12,7 +12,6 @@ import { decode } from '../shared/jwt/jwt-decode';
 import { UsersService } from '../users/users.service';
 import { WhiteListService } from './white-list.service';
 import { User } from 'src/users/user.entity';
-import { ConfigService } from '@nestjs/config';
 
 const scrypt = promisify(_scrypt);
 
@@ -21,7 +20,6 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private whiteListService: WhiteListService,
-    private configService: ConfigService,
   ) { }
   async signup(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
@@ -55,7 +53,7 @@ export class AuthService {
   async refreshToken(token: string) {
     const decodedToken = decode(
       token,
-      this.configService.get<string>('JWT_KEY_REFRESH'),
+      process.env.JWT_KEY_REFRESH
     );
     if (decodedToken.exp < currentTimeInSeconds()) {
       throw new ForbiddenException('refresh token has expired');
@@ -63,7 +61,7 @@ export class AuthService {
     const user = await this.usersService.findOneById(decodedToken.sub);
     const hashedToken = createHmac(
       'SHA256',
-      this.configService.get<string>('JWT_KEY_REFRESH'),
+      process.env.JWT_KEY_REFRESH
     )
       .update(token)
       .digest()
@@ -81,29 +79,29 @@ export class AuthService {
         sub: user.id,
         exp: Math.floor(
           Number(
-            this.configService.get<string>('JWT_EXPIRY_TIME_ACCESS_TOKEN'),
+            process.env.JWT_EXPIRY_TIME_ACCESS_TOKEN
           ) + nowInSeconds,
         ),
       },
-      this.configService.get<string>('JWT_KEY_ACCESS'),
+      process.env.JWT_KEY_ACCESS
     );
     const refresh_token = encode(
       {
         sub: user.id,
         exp: Math.floor(
           Number(
-            this.configService.get<string>('JWT_EXPIRY_TIME_REFRESH_TOKEN'),
+            process.env.JWT_EXPIRY_TIME_REFRESH_TOKEN
           ) + nowInSeconds,
         ),
       },
-      this.configService.get<string>('JWT_KEY_REFRESH'),
+      process.env.JWT_KEY_REFRESH
     );
     return {
       access_token,
       refresh_token,
       e: Math.floor(
         Number(
-          this.configService.get<string>('JWT_EXPIRY_TIME_REFRESH_TOKEN'),
+          process.env.JWT_EXPIRY_TIME_REFRESH_TOKEN
         ) + nowInSeconds,
       ),
     };
@@ -112,7 +110,7 @@ export class AuthService {
   logout(token: string) {
     const encodedToken = createHmac(
       'SHA256',
-      this.configService.get<string>('JWT_KEY_REFRESH'),
+      process.env.JWT_KEY_REFRESH
     )
       .update(token)
       .digest()

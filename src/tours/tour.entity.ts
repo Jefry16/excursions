@@ -16,11 +16,11 @@ export class Tour {
   @Column()
   name: string;
 
-  // @Column()
-  // priceAdult: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  priceAdult: number;
 
-  // @Column()
-  // priceKid: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  priceKid: number;
 
   @ManyToOne(() => User, (user) => user.tours, { onDelete: 'SET NULL' })
   @JoinColumn()

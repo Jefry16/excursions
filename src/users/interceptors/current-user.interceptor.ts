@@ -6,13 +6,11 @@ import {
 } from '@nestjs/common';
 import { decode } from '../../shared/jwt/jwt-decode';
 import { UsersService } from '../users.service';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
   constructor(
     private userService: UsersService,
-    private configService: ConfigService,
   ) {}
   async intercept(context: ExecutionContext, next: CallHandler) {
     const request = context.switchToHttp().getRequest();
@@ -26,7 +24,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
       const token = bearerToken.split(' ')[1];
       const tokenData = decode(
         token,
-        this.configService.get<string>('JWT_KEY_ACCESS'),
+        process.env.JWT_KEY_ACCESS
       );
       const user = await this.userService.findOneById(tokenData?.sub);
       request.currentUser = user;

@@ -1,18 +1,19 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
 
 export class CreateTourDto {
+
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @IsNumber()
   providerId: number;
 
-  // @IsNumber()
-  // priceAdult: number;
+  @IsNumber()
+  @IsPositive()
+  priceAdult: number;
 
-  // @IsNumber()
-  // priceKid: number;
-
-  // @IsNumber()
-  // providerId: number;
+  @IsNumber()
+  @IsPositive()
+  priceKid: number;
 }

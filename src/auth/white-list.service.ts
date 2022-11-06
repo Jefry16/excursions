@@ -3,19 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createHmac } from 'crypto';
 import { WhiteList } from './whitelist-token.entity';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class WhiteListService {
   constructor(
-    private configService: ConfigService,
     @InjectRepository(WhiteList) private repo: Repository<WhiteList>,
   ) { }
 
   saveTokenHash(token: string, expires_at: number) {
     const token_hash = createHmac(
       'SHA256',
-      this.configService.get<string>('JWT_KEY_REFRESH'),
+      process.env.JWT_KEY_REFRESH
     )
       .update(token)
       .digest()
