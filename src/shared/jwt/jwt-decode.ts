@@ -6,7 +6,7 @@ export function decode(token: string, key: string) {
     /^(?<header>.+)\.(?<payload>.+)\.(?<signature>.+)$/,
   );
   if (!matches) {
-    throw new BadRequestException('invalid token format');
+    throw new BadRequestException('invalid token format1');
   }
   const { header, payload, signature } = matches['groups'];
   const hashedSignatured = createHmac('SHA256', key)

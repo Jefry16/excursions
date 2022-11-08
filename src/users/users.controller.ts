@@ -15,12 +15,10 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
-import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('users')
 @Serialize(UserDto)
-@ApiTags('users')
 export class UsersController {
   constructor(private userService: UsersService) { }
 

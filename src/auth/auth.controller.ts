@@ -8,11 +8,9 @@ import { Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { decode } from '../shared/jwt/jwt-decode';
 import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
-import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('auth')
-@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }
 
@@ -41,7 +39,7 @@ export class AuthController {
     if (decodedToken?.exp < currentTimeInSeconds()) {
       throw new ForbiddenException('access token has expired');
     }
-    return { auth: '945454535453435455' }
+    return { auth: Math.floor(Math.random() * 4586) }
   }
 
 

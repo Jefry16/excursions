@@ -6,16 +6,13 @@ import { User } from '../users/user.entity';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ProviderDto } from './dtos/provider.dto';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Provider } from './provider.entity';
 import PaginationDto from '../shared/dtos/pagination.dto';
 import { PaginatedProviderDto } from './dtos/paginated-provider.dto';
 
 
 @Controller('providers')
-@UseGuards(LoggedinGuard)
-@ApiTags('providers')
-@ApiResponse({ status: 201, type: Provider, description: 'created' })
+// @UseGuards(LoggedinGuard)
 export class ProvidersController {
   constructor(private providerService: ProvidersService) { }
 

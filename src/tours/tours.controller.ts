@@ -6,13 +6,11 @@ import { User } from '../users/user.entity';
 import { LoggedinGuard } from '../shared/guards/loggedin.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { TourDto } from './dtos/tour.dto';
-import { ApiTags } from '@nestjs/swagger';
 import PaginationDto from '../shared/dtos/pagination.dto';
 import { PaginatedTourDto } from './dtos/paginated-tour.dto';
 
 @Controller('tours')
 // @UseGuards(LoggedinGuard)
-@ApiTags('tours')
 export class ToursController {
   constructor(private toursService: ToursService) { }
 
