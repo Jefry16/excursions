@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Provider } from './provider.entity';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { User } from '../users/user.entity';
@@ -34,10 +34,10 @@ export class ProvidersService {
   async findMany(paginationDto: PaginationDto) {
 
     const query = this.repo.createQueryBuilder('providers');
-    query.leftJoinAndSelect('providers.user','user')
-      .orderBy('providers.id', paginationDto.order)
+    query.leftJoinAndSelect('providers.user', 'user')
+      .orderBy('providers.id', paginationDto.order).where({ name: Like(`%${paginationDto.q}%`) })
       .limit(paginationDto.limit)
-      .offset(paginationDto.limit * (paginationDto.page - 1));
+      .offset(paginationDto.limit * (paginationDto.page - 1))
     const itemsCount = await query.getCount();
     const { entities } = await query.getRawAndEntities();
 

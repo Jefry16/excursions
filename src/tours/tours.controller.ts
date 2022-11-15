@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ToursService } from './tours.service';
 import { CreateTourDto } from './dtos/create.tour.dto';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
@@ -10,9 +18,9 @@ import PaginationDto from '../shared/dtos/pagination.dto';
 import { PaginatedTourDto } from './dtos/paginated-tour.dto';
 
 @Controller('tours')
-// @UseGuards(LoggedinGuard)
+@UseGuards(LoggedinGuard)
 export class ToursController {
-  constructor(private toursService: ToursService) { }
+  constructor(private toursService: ToursService) {}
 
   @Post()
   @Serialize(TourDto)
@@ -29,7 +37,6 @@ export class ToursController {
   @Get('')
   @Serialize(PaginatedTourDto)
   seachFor(@Query() paginationDto: PaginationDto) {
-    return this.toursService.findMany(paginationDto)
+    return this.toursService.findMany(paginationDto);
   }
-
 }

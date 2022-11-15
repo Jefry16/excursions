@@ -17,4 +17,7 @@ export default class PaginationDto {
 
     @IsOptional()
     order: 'DESC' | 'ASC' = 'ASC'
+
+    @IsOptional()
+    q = ''
 }

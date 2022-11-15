@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dtos/create-provider.dto';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
@@ -10,11 +18,10 @@ import { Provider } from './provider.entity';
 import PaginationDto from '../shared/dtos/pagination.dto';
 import { PaginatedProviderDto } from './dtos/paginated-provider.dto';
 
-
 @Controller('providers')
-// @UseGuards(LoggedinGuard)
+ @UseGuards(LoggedinGuard)
 export class ProvidersController {
-  constructor(private providerService: ProvidersService) { }
+  constructor(private providerService: ProvidersService) {}
 
   @Post('')
   @Serialize(ProviderDto)
