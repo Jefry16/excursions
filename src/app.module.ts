@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { ToursModule } from './tours/tours.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { BookingsModule } from './bookings/bookings.module';
 const dbConfig = require('../ormconfig.js');
 
 @Module({
@@ -28,6 +29,7 @@ const dbConfig = require('../ormconfig.js');
     ProvidersModule,
     ToursModule,
     ClientsModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

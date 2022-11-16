@@ -12,7 +12,7 @@ export class ToursService {
   constructor(
     @InjectRepository(Tour) private repo: Repository<Tour>,
     private providersSerice: ProvidersService,
-  ) { }
+  ) {}
 
   async create(tourDto: CreateTourDto, user: User) {
     const provider = await this.providersSerice.findOne(tourDto.providerId);
@@ -38,18 +38,20 @@ export class ToursService {
   }
 
   findByName(name: string) {
-    return this.repo.find({ where: { name: Like(`%${name}%`) }, })
+    return this.repo.find({ where: { name: Like(`%${name}%`) } });
   }
 
   async findMany(paginationDto: PaginationDto) {
-    const query = this.repo.createQueryBuilder('tour')
-      .leftJoinAndSelect('tour.user', 'user').leftJoinAndSelect('tour.provider', 'provider')
+    const query = this.repo
+      .createQueryBuilder('tour')
+      .leftJoinAndSelect('tour.user', 'user')
+      .leftJoinAndSelect('tour.provider', 'provider')
       .orderBy('tour.id', paginationDto.order)
       .limit(paginationDto.limit)
       .offset(paginationDto.limit * (paginationDto.page - 1));
     const itemsCount = await query.getCount();
     const { entities } = await query.getRawAndEntities();
-
+    console.log(entities[0]);
     return {
       data: entities,
       meta: {
