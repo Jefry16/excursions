@@ -1,6 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsNumber,
+  IsNotEmpty,
+  IsDateString,
+  IsEmail,
+  IsString,
+} from 'class-validator';
 
-export class CreateClientDto {
+export class CreateBookingNewClientDto {
+  /**new client dto part */
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -19,4 +26,10 @@ export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
   country: string;
+
+  /**
+   * new booking dto part
+   */
+
+  
 }

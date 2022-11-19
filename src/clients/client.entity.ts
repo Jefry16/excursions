@@ -15,6 +15,18 @@ export class Client {
   @Column()
   name: string;
 
+  @Column()
+  lastName: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  country: string;
+
+  @Column()
+  phone: string;
+  
   @ManyToOne(() => User, (user) => user.tours, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;

@@ -1,5 +1,5 @@
 var dbConfig = {
-  synchronize: false,
+  synchronize: true,
 };
 /**
  * jefrycay_nest
