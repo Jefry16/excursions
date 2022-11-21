@@ -9,5 +9,6 @@ import { ProvidersModule } from '../providers/providers.module';
   providers: [ToursService],
   controllers: [ToursController],
   imports: [TypeOrmModule.forFeature([Tour]), ProvidersModule],
+  exports:[ToursService]
 })
 export class ToursModule {}

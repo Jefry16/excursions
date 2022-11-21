@@ -34,6 +34,6 @@ export class Tour {
   @JoinColumn()
   provider: Provider;
 
-  @OneToMany(() => Booking, (bookings) => bookings.tour)
+  @OneToMany(() => Booking, (booking) => booking.tour)
   bookings: Booking[];
 }

@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Tour } from '../tours/tour.entity';
-import { Client } from 'src/clients/client.entity';
+import { Client } from '../clients/client.entity';
 
 @Entity()
 export class Booking {
@@ -40,7 +40,7 @@ export class Booking {
   @JoinColumn()
   tour: Tour;
 
-  @ManyToOne(() => Client, (tour) => tour.bookings, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Client, (client) => client.bookings, { onDelete: 'SET NULL' })
   @JoinColumn()
   client: Client;
 

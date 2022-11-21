@@ -8,12 +8,14 @@ import { CreateBookingNewClientDto } from './dtos/create-booking-new-client.dto'
 import { User } from '../users/user.entity';
 import { CreateTourDto } from '../tours/dtos/create.tour.dto';
 import { CreateBookingDto } from './dtos/create-booking.dto';
+import { ToursService } from '../tours/tours.service';
 
 @Injectable()
 export class BookingsService {
   constructor(
     @InjectRepository(Booking) private repo: Repository<Booking>,
     private clientService: ClientsService,
+    private tourService: ToursService,
   ) {}
 
   async createBookingNewClient(
@@ -37,6 +39,12 @@ export class BookingsService {
       roomNumber: bookingDto.roomNumber,
     };
 
+    const tour = await this.tourService.findOneById(bookingDto.tourId);
+
     const booking = this.repo.create(bookingData);
+    booking.client = client;
+    booking.user = user;
+    booking.tour = tour;
+    return this.repo.save(booking);
   }
 }

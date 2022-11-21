@@ -1,4 +1,4 @@
-import { Booking } from 'src/bookings/bookings.entity';
+import { Booking } from '../bookings/bookings.entity';
 import {
   Column,
   Entity,

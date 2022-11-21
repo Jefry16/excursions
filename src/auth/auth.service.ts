@@ -11,7 +11,7 @@ import { currentTimeInSeconds } from '../shared/helpers/time-in-seconds.helper';
 import { decode } from '../shared/jwt/jwt-decode';
 import { UsersService } from '../users/users.service';
 import { WhiteListService } from './white-list.service';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 
 const scrypt = promisify(_scrypt);
 

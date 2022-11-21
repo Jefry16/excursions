@@ -55,4 +55,8 @@ export class CreateBookingNewClientDto {
 
   @IsString()
   roomNumber: string;
+  
+  @IsNotEmpty()
+  @IsNumber()
+  tourId: number;
 }
