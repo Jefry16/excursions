@@ -11,6 +11,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Booking } from '../bookings/bookings.entity';
 
 @Entity()
 export class User {
@@ -31,6 +32,9 @@ export class User {
 
   @OneToMany(() => Client, (client) => client.user)
   clients: Client[];
+
+  @OneToMany(() => Booking, (bookings) => bookings.user)
+  bookings: Booking[];
 
   @AfterInsert()
   afterInsert() {

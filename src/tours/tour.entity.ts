@@ -1,8 +1,10 @@
+import { Booking } from '../bookings/bookings.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Provider } from '../providers/provider.entity';
@@ -31,4 +33,7 @@ export class Tour {
   })
   @JoinColumn()
   provider: Provider;
+
+  @OneToMany(() => Booking, (bookings) => bookings.tour)
+  bookings: Booking[];
 }

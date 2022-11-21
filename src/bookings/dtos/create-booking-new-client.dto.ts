@@ -4,6 +4,9 @@ import {
   IsDateString,
   IsEmail,
   IsString,
+  IsPositive,
+  ValidateIf,
+  Min,
 } from 'class-validator';
 
 export class CreateBookingNewClientDto {
@@ -31,5 +34,25 @@ export class CreateBookingNewClientDto {
    * new booking dto part
    */
 
-  
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  adults: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  kids: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  babies: number;
+
+  @IsNotEmpty()
+  @IsDateString()
+  date: Date;
+
+  @IsString()
+  roomNumber: string;
 }

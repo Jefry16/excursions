@@ -1,8 +1,10 @@
+import { Booking } from 'src/bookings/bookings.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../users/user.entity';
@@ -26,14 +28,11 @@ export class Client {
 
   @Column()
   phone: string;
-  
+
   @ManyToOne(() => User, (user) => user.tours, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
 
-  //   @ManyToOne(() => Provider, (provider) => provider.tours, {
-  //     onDelete: 'SET NULL',
-  //   })
-  //   @JoinColumn()
-  //   provider: Provider;
+  @OneToMany(() => Booking, (booking) => booking.client)
+  bookings: Booking[];
 }

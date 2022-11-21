@@ -14,7 +14,13 @@ export class CreateBookingDto {
   @IsNumber()
   kids: number;
 
+  @IsNumber()
+  babies: number;
+
   @IsNotEmpty()
   @IsDateString()
   date: Date;
+
+  @IsString()
+  roomNumber: string;
 }
