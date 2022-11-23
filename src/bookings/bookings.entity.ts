@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Tour } from '../tours/tour.entity';
 import { Client } from '../clients/client.entity';
+import { Hotel } from '../hotels/hotel.entity';
 
 @Entity()
 export class Booking {
@@ -32,6 +33,9 @@ export class Booking {
   @Column({ nullable: true })
   roomNumber: string;
 
+  @Column({ default: 0 })
+  discount: number;
+
   @ManyToOne(() => User, (user) => user.bookings, { onDelete: 'SET NULL' })
   @JoinColumn()
   user: User;
@@ -40,11 +44,13 @@ export class Booking {
   @JoinColumn()
   tour: Tour;
 
-  @ManyToOne(() => Client, (client) => client.bookings, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Client, (client) => client.bookings, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   client: Client;
 
-  /**todo
-   * add hotel, tour,
-   */
+  @ManyToOne(() => Hotel, (hotel) => hotel.bookings, { onDelete: 'SET NULL' })
+  @JoinColumn()
+  hotel: Hotel;
 }

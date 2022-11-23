@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Min,
 } from 'class-validator';
 
 export class CreateBookingDto {
@@ -23,4 +24,8 @@ export class CreateBookingDto {
 
   @IsString()
   roomNumber: string;
+
+  @IsNumber()
+  @Min(0)
+  discount: number;
 }

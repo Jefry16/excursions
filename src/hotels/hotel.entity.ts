@@ -1,9 +1,11 @@
+import { Booking } from '../bookings/bookings.entity';
 import {
   AfterInsert,
   AfterRemove,
   AfterUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,6 +19,9 @@ export class Hotel {
 
   @Column()
   slug: string;
+
+  @OneToMany(() => Booking, (booking) => booking.hotel)
+  bookings: Booking[];
 
   @AfterInsert()
   afterInsert() {}

@@ -8,5 +8,6 @@ import { HotelsController } from './hotels.controller';
   providers: [HotelsService],
   imports: [TypeOrmModule.forFeature([Hotel])],
   controllers: [HotelsController],
+  exports: [HotelsService],
 })
 export class HotelsModule {}

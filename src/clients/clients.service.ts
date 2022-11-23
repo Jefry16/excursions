@@ -24,7 +24,7 @@ export class ClientsService {
       relations: ['user'],
     });
 
-    if (!id || !clients.length) {
+    if (!clients.length) {
       throw new NotFoundException('client not found');
     }
     return clients[0];

@@ -14,6 +14,7 @@ export class HotelsController {
   }
   @Post('')
   create(@Body() body: CreateHotelDto) {
+    
     return this.hotelsService.create(body.name);
   }
 }

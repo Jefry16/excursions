@@ -9,15 +9,7 @@ import { CreateBookingDto } from './dtos/create-booking.dto';
 export class BookingsController {
   constructor(private bookingService: BookingsService) {}
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
-    return createBookingDto;
-  }
-
-  @Post('newclient')
-  createWithNewClient(
-    @Body() dto: CreateBookingNewClientDto,
-    @CurrentUser() user: User,
-  ) {
+  create(@Body() dto: CreateBookingNewClientDto, @CurrentUser() user: User) {
     return this.bookingService.createBookingNewClient(dto, user);
   }
 }

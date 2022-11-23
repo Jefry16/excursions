@@ -33,7 +33,6 @@ export class ToursService {
     if (!tours.length) {
       throw new NotFoundException('tour not found');
     }
-    console.log(tours[0]);
     return tours[0];
   }
 
@@ -51,7 +50,6 @@ export class ToursService {
       .offset(paginationDto.limit * (paginationDto.page - 1));
     const itemsCount = await query.getCount();
     const { entities } = await query.getRawAndEntities();
-    console.log(entities[0]);
     return {
       data: entities,
       meta: {
